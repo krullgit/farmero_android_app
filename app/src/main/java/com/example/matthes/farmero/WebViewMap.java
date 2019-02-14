@@ -8,8 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-public class fieldMap extends AppCompatActivity {
+public class WebViewMap extends AppCompatActivity {
 
 
 
@@ -22,7 +23,7 @@ public class fieldMap extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_field_map);
+        setContentView(R.layout.activity_web_view_map);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -38,8 +39,10 @@ public class fieldMap extends AppCompatActivity {
         WebView myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
+        myWebView.setWebViewClient(new WebViewClient());
         //myWebView.loadUrl("http://www.example.com");
-        myWebView.loadUrl("http://farmero.appspot.com/");
-    }
+        myWebView.loadUrl("http://10.0.2.2:9000/");
 
+
+    }
 }

@@ -26,28 +26,40 @@ import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button pop;
-    Button fieldMap;
+    Button popUp;
+    Button btnSoil;
     Button btnTakePic;
+    Button btnproducts;
     ImageView btnTakePicImage1;
     String pathToFile;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        //constructor
         super.onCreate(savedInstanceState);
+
+        // render main layout
         setContentView(R.layout.activity_main);
 
-        pop = findViewById(R.id.button9);
-        fieldMap = findViewById(R.id.button4);
+        // set variables
+        popUp = findViewById(R.id.btnSugar);
+        btnSoil = findViewById(R.id.btnSoil);
         btnTakePic = findViewById(R.id.btnTakePic);
+        btnproducts = findViewById(R.id.btnProducts);
         btnTakePicImage1 = findViewById(R.id.btnTakePicImage1);
 
+        // require permission to save pictures on phone
         if(Build.VERSION.SDK_INT >= 23){
             Log.d("test","test");
             requestPermissions(new  String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
         }
 
+        //#################### LISTENERS #######################
+
+        // Listener for taking picture
         btnTakePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,20 +67,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        pop.setOnClickListener(new View.OnClickListener() {
+        // Listener for popUp
+        popUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startActivity(new Intent(MainActivity.this, Pop.class));
             }
         });
 
-        fieldMap.setOnClickListener(new View.OnClickListener() {
+        // Listener for popUp
+        btnSoil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(MainActivity.this, fieldMap.class));
+                startActivity(new Intent(MainActivity.this, WebViewMap.class));
+            }
+        });
+
+        btnproducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
         });
     }
@@ -84,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    // take picture function 1
     private void dispatchPictureTakerAction() {
         Intent takePic = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(takePic.resolveActivity(getPackageManager()) != null){
@@ -94,12 +116,11 @@ public class MainActivity extends AppCompatActivity {
                 Uri photoURI = FileProvider.getUriForFile(MainActivity.this,"com.example.matthes.farmero.fileprovider",photoFile);
                 takePic.putExtra(MediaStore.EXTRA_OUTPUT,photoURI);
                 startActivityForResult(takePic,1);
-
             }
-
         }
     }
 
+    // take picture function 1
     private File createPhotoFile() {
         String name = new SimpleDateFormat("yyyMMdd_HHmmss").format(new Date());
         File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
