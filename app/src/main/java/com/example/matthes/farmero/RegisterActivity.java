@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    // parameter
     public EditText emailId, passwd;
     Button btnSignUp;
     TextView signIn;
@@ -51,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         "SignUp unsuccessful: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(RegisterActivity.this, UserActivity.class));
+                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                             }
                         }
                     });

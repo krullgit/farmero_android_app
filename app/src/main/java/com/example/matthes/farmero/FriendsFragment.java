@@ -13,11 +13,10 @@ import android.view.ViewGroup;
  */
 public class FriendsFragment extends Fragment {
 
-
+    // constructor
     public FriendsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

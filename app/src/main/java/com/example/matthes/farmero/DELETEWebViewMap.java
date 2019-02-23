@@ -12,7 +12,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class WebViewMap extends AppCompatActivity {
+public class DELETEWebViewMap extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

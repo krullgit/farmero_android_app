@@ -18,15 +18,17 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class SettingsActivity extends AppCompatActivity {
+
+    //parameter
     Button btnLogOut;
     private EditText v;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
+    // constructor
     public SettingsActivity() {
         // Required empty public constructor
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,11 +36,13 @@ public class SettingsActivity extends AppCompatActivity {
         //constructor
         super.onCreate(savedInstanceState);
 
+        // set xml
         setContentView(R.layout.activity_settings);
 
         // set variables
         btnLogOut = findViewById(R.id.btnLogOut);
 
+        // Listener
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,14 +53,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         });
 
+        // get user email and place it inside the xml
         FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
         String userid=user.getEmail();
-
         v = (EditText) findViewById(R.id.email);
         SharedPreferences settings = this.getSharedPreferences("PREFS", 0);
         v.setText(settings.getString("value", userid));
-
-
     }
 }
 

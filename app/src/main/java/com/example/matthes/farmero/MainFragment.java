@@ -35,11 +35,11 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
  */
 public class MainFragment extends Fragment {
 
+    // properties
     FloatingActionButton settings;
     private static final List<List<Point>> POINTS = new ArrayList<>();
     private static final List<Point> OUTER_POINTS = new ArrayList<>();
-
-
+    // polygone for map
     static {
         OUTER_POINTS.add(Point.fromLngLat(14.566519260406494, 51.16942143993214));
         OUTER_POINTS.add(Point.fromLngLat( 14.571776390075684, 51.16933398636553));
@@ -56,20 +56,23 @@ public class MainFragment extends Fragment {
         POINTS.add(OUTER_POINTS);
     }
 
-
+    // required constructor
     public MainFragment() {
         // Required empty public constructor
     }
 
+    // every fragment has this
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
+        // initialize parameters
         settings = view.findViewById(R.id.nav_settings2);
-        //Listener for popUp
+
+        // Listener
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,13 +81,10 @@ public class MainFragment extends Fragment {
             }
         });
 
-        // Inflate the layout for this fragment
 
 
-        // Mapbox access token is configured here. This needs to be called either in your application
-        // object or in the same activity which contains the mapview.
 
-        // Create supportMapFragment
+        // Create Mapbox
         SupportMapFragment mapFragment;
         if (savedInstanceState == null) {
 
@@ -94,8 +94,7 @@ public class MainFragment extends Fragment {
             // Build mapboxMap
             MapboxMapOptions options = new MapboxMapOptions();
             options.camera(new CameraPosition.Builder()
-                    .target(new LatLng(51.171775896696396, 14.570703506469727
-                            ))
+                    .target(new LatLng(51.171775896696396, 14.570703506469727))
                     .zoom(14)
                     .build());
 
@@ -111,8 +110,7 @@ public class MainFragment extends Fragment {
 
 
 
-
-
+        // Create Mapbox Callback
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull MapboxMap mapboxMap) {
@@ -120,7 +118,6 @@ public class MainFragment extends Fragment {
                 mapboxMap.setStyle(Style.SATELLITE, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
-
                         // Map is set up and the style has loaded. Now you can add data or make other map adjustments
 
                         // ADD the Polygon
@@ -128,18 +125,11 @@ public class MainFragment extends Fragment {
                         style.addLayer(new FillLayer("layer-id", "source-id").withProperties(
                                 fillColor(Color.parseColor("#3CFFEA00")))
                         );
-
-
-
                     }
                 });
             }
         });
 
-
-
         return view;
-
     }
-
 }

@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
+
+    // parameter
     public EditText loginEmailId, logInpasswd;
     Button btnLogIn;
     TextView signup;

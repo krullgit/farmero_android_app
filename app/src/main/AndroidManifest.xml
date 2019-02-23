@@ -48,13 +48,11 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".WebViewMap"
+            android:name=".DELETEWebViewMap"
             android:label="@string/title_activity_field_map"
             android:theme="@style/AppTheme" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".UserActivity" />
-        <activity android:name=".mapboxFragment" />
         <activity android:name=".SettingsActivity" />
 
 

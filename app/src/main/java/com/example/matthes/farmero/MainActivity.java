@@ -16,34 +16,22 @@ import android.widget.FrameLayout;
 
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.MapboxMapOptions;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.maps.SupportMapFragment;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity /*implements PermissionsListener*/ {
+public class MainActivity extends AppCompatActivity {
 
-
+    // parameter
     private BottomNavigationView mMainNav;
     private FrameLayout mMainFrame;
-
     private MainFragment mainFragment;
     private FriendsFragment friendsFragment;
     private PhotoFragment photoFragment;
-    private MapFragment mapFragment;
+    private MapboxFragment mapboxFragment;
     private SettingsActivity settingsFragment;
     private List<Point> routeCoordinates;
 
-    // for current location
-   /* private MapboxMap mapboxMap;
-    private PermissionsManager permissionsManager;*/
-
-
+    // Create Buttom Navigation
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -51,37 +39,33 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
         return true;
     }
 
+    // like a constructor
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
-
-        //constructor
+        // run super constructor
         super.onCreate(savedInstanceState);
 
+        // get mapbox instance with key
         Mapbox.getInstance(this, "pk.eyJ1IjoiZmFybWVybyIsImEiOiJjanJ6Zmd5cGcxODFzNDNsdnB0dW16bXh6In0.F6w_diZUKuqmcHGc1QNOGw");
 
         // render main layout
         setContentView(R.layout.activity_main);
 
-
-        // set variables
+        // initialize parameters
         mMainNav = (BottomNavigationView) findViewById(R.id.main_nav);
         mMainFrame = (FrameLayout) findViewById(R.id.main_frame);
         mainFragment = new MainFragment();
-        mapFragment = new MapFragment();
         photoFragment = new PhotoFragment();
         settingsFragment = new SettingsActivity();
         friendsFragment = new FriendsFragment();
+        mapboxFragment = new MapboxFragment();
 
-
-        loadMap(savedInstanceState);
-
-
+        // set default view to main page
         setFragment(mainFragment);
 
-
+        // Event handler for bottom navigation bar
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -90,16 +74,11 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
                         setFragment(mainFragment);
                         return true;
                     case R.id.nav_photo:
-                        //Intent intent = new Intent(MainActivity.this, mapboxFragment.class);
-                        //startActivity(intent);
                         setFragment(photoFragment);
                         return true;
                     case R.id.nav_map:
-
-                        loadMap(savedInstanceState);
-
+                        setFragment(mapboxFragment);
                         return true;
-
                     case R.id.nav_friends:
                         setFragment(friendsFragment);
                         return true;
@@ -107,8 +86,6 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
                         return false;
                 }
             }
-
-
         });
 
         // require permission to save pictures on phone
@@ -116,150 +93,14 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
             Log.d("test", "test");
             requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
         }
-
-        //#################### LISTENERS #######################
-
-
     }
 
-    private void loadMap(Bundle savedInstanceState) {
-        // Create supportMapFragment
-        SupportMapFragment mapFragment;
-        if (savedInstanceState == null) {
-
-            // Create fragment
-            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            // Build mapboxMap
-            MapboxMapOptions options = new MapboxMapOptions();
-            options.camera(new CameraPosition.Builder()
-                    .target(new LatLng(51.171775896696396, 14.570703506469727))
-                    .zoom(14)
-                    .build());
-
-            // Create map fragment
-            mapFragment = SupportMapFragment.newInstance(options);
-
-            // Add map fragment to parent container
-            transaction.add(R.id.main_frame, mapFragment, "com.mapbox.map");
-            transaction.commit();
-        } else {
-            mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentByTag("com.mapbox.map");
-        }
-
-
-
-        mapFragment.getMapAsync(new OnMapReadyCallback() {
-
-
-
-
-            @Override
-            public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-
-
-                mapboxMap.setStyle(Style.SATELLITE, new Style.OnStyleLoaded() {
-
-
-
-                    @Override
-                    public void onStyleLoaded(@NonNull Style style) {
-
-                        // for current location
-                        /*enableLocationComponent(style);*/
-
-
-                                        /*MarkerOptions options = new MarkerOptions();
-                                        options.title("cwefewf");
-                                        options.position(new LatLng(51.171775896696396, 14.570703506469727));
-                                        mapboxMap.addMarker(options);
-
-
-                                        // Add the marker image to map
-                                        style.addImage("marker-icon-id",
-                                                BitmapFactory.decodeResource(
-                                                        MainActivity.this.getResources(), R.drawable.camera));
-
-                                        GeoJsonSource geoJsonSource = new GeoJsonSource("source-id", Feature.fromGeometry(
-                                                Point.fromLngLat(51.171775896696396, 14.570703506469727)));
-                                        style.addSource(geoJsonSource);
-
-                                        SymbolLayer symbolLayer = new SymbolLayer("layer-id", "source-id");
-                                        symbolLayer.withProperties(
-                                                PropertyFactory.iconImage("marker-icon-id")
-                                        );
-                                        style.addLayer(symbolLayer);
-*/
-
-
-
-                    }
-                });
-            }
-        });
-        //setFragment(mapFragment);
-
-    }
-
-    // for current location
-   /* @SuppressWarnings({"MissingPermission"})
-    private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
-        if (PermissionsManager.areLocationPermissionsGranted(this)) {
-// Get an instance of the location component. Adding in LocationComponentOptions is also an optional
-// parameter
-            LocationComponent locationComponent = mapboxMap.getLocationComponent();
-            locationComponent.activateLocationComponent(this, loadedMapStyle);
-            locationComponent.setLocationComponentEnabled(true);
-            locationComponent.setCameraMode(CameraMode.TRACKING);
-            locationComponent.setRenderMode(RenderMode.NORMAL);
-        } else {
-            permissionsManager = new PermissionsManager(this);
-            permissionsManager.requestLocationPermissions(this);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-        Toast.makeText(this, R.string.user_location_permission_explanation, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onPermissionResult(boolean granted) {
-        if (granted) {
-            mapboxMap.getStyle(new Style.OnStyleLoaded() {
-                @Override
-                public void onStyleLoaded(@NonNull Style style) {
-                    enableLocationComponent(style);
-                }
-            });
-        } else {
-            Toast.makeText(this, R.string.user_location_permission_not_granted, Toast.LENGTH_LONG).show();
-            finish();
-        }
-    }
-*/
-
-
-
-
-
-
-
+    // FUNCTION to replace the fragment according to the nav bar
     private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }
-
-
-
-
 }
 
 
@@ -408,7 +249,7 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
 //            @Override
 //            public void onClick(View v) {
 //
-//                startActivity(new Intent(MainActivity.this, WebViewMap.class));
+//                startActivity(new Intent(MainActivity.this, DELETEWebViewMap.class));
 //            }
 //        });
 //
