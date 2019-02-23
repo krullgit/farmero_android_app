@@ -21,85 +21,12 @@
         android:id="@+id/main_frame"
         android:layout_above="@id/main_nav">
 
-        <Button
-            android:id="@+id/btnSoil"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="58dp"
-            android:layout_height="45dp"
-            android:elevation="0dp"
-            android:text="Soil"
-            android:textAllCaps="false"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/button2"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:text="Soil" />
 
-        <Button
-            android:id="@+id/btnYield"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="67dp"
-            android:layout_height="45dp"
-            android:elevation="0dp"
-            android:text="Yield"
-            android:textAllCaps="false"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/btnSoil"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:text="Yield" />
-
-        <Button
-            android:id="@+id/btnProducts"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="100dp"
-            android:layout_height="44dp"
-            android:elevation="0dp"
-            android:text="Products"
-            android:textAllCaps="false"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/btnYield"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:text="Products" />
-
-        <Button
-            android:id="@+id/btnSugar"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="70dp"
-            android:layout_height="45dp"
-            android:elevation="0dp"
-            android:text="Sugar"
-            android:textAllCaps="false"
-            android:textColor="@color/common_google_signin_btn_text_dark_default"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/btnProducts"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:text="Sugar" />
-
-        <Button
-            android:id="@+id/button2"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="80dp"
-            android:layout_height="45dp"
-            android:elevation="0dp"
-            android:text="Health"
-            android:textAllCaps="false"
-            android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:text="Health" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="359dp"
-            android:layout_height="114dp"
+            android:layout_width="358dp"
+            android:layout_height="140dp"
             android:adjustViewBounds="false"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
@@ -117,21 +44,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/field" />
-
-        <Button
-            android:id="@+id/btnTakePic"
-            android:layout_width="87dp"
-            android:layout_height="87dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/camera"
-            android:elevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
         <Button
             android:id="@+id/button7"
@@ -140,12 +58,14 @@
             android:layout_height="56dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="28dp"
+            android:layout_marginBottom="8dp"
             android:elevation="0dp"
             android:fontFamily="@font/carter_one"
             android:text="Your"
             android:textAllCaps="false"
             android:textColor="@android:color/background_light"
             android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/imageView2"
             app:layout_constraintHorizontal_bias="0.954"
             app:layout_constraintStart_toStartOf="parent"
@@ -159,56 +79,177 @@
             android:layout_height="56dp"
             android:layout_marginTop="28dp"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:elevation="0dp"
             android:fontFamily="@font/carter_one"
             android:text="Farm"
             android:textAllCaps="false"
             android:textColor="@android:color/background_light"
             android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="@+id/imageView"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Farm" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView3"
-            android:layout_width="344dp"
-            android:layout_height="175dp"
+
+        <TextView
+            android:id="@+id/fieldName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="17dp"
             android:layout_marginEnd="8dp"
+            android:ems="10"
+            android:textSize="20sp"
+            android:inputType="textPersonName"
+            android:text="The Super Field One "
+            android:textColor="@color/colorPrimaryDark"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/carter_one"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/nav_settings2"
+                android:layout_width="wrap_content"
+                android:layout_gravity="right"
+                app:srcCompat="@drawable/baseline_settings_white_24dp"
+                app:backgroundTint="#00FFFFFF"
+                app:elevation="0dp"
+                android:elevation="0dp"
+                android:layout_height="wrap_content" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardOverview"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             app:cardBackgroundColor="@color/common_google_signin_btn_text_dark_default"
             app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnYield">
+            app:layout_constraintTop_toBottomOf="@+id/fieldName">
 
-            <ImageView
-                android:id="@+id/imageView4"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginTop="143dp"
-                android:adjustViewBounds="false"
-                android:src="@drawable/plus1"
-                tools:layout_editor_absoluteX="143dp"
-                tools:layout_editor_absoluteY="311dp" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="1dp"
+                        android:text="+40%"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="40sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/carter_one"
+                        android:paddingBottom="15dp"
+                        android:text="Yield"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:paddingTop="5dp"
+                        android:paddingBottom="1dp"
+                        android:text="-30%"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="40sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/carter_one"
+                        android:paddingBottom="15dp"
+                        android:text="Loss"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="18sp" />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
         </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="344dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardOverview">
+
+
+            <FrameLayout
+                android:id="@+id/sub_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></FrameLayout>
+
+        </android.support.v7.widget.CardView>
+
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView5"
             android:layout_width="344dp"
-            android:layout_height="61dp"
+            android:layout_height="300dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             app:cardBackgroundColor="@color/common_google_signin_btn_text_dark_default"
-            app:cardCornerRadius="0dp"
+            app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnTakePic">
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <Button
                 android:id="@+id/button12"
@@ -216,7 +257,7 @@
                 android:layout_width="195dp"
                 android:layout_height="wrap_content"
                 android:elevation="0dp"
-                android:text="Yellow Rust"
+                android:text="Yield"
                 android:textAllCaps="false"
                 android:textColor="@color/common_google_signin_btn_text_dark_focused"
                 android:textSize="30sp"
@@ -225,48 +266,6 @@
                 tools:layout_editor_absoluteY="246dp"
                 tools:text="Yellow Rust" />
         </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="344dp"
-            android:layout_height="136dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:cardBackgroundColor="@color/colorPrimary"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.55"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnYield">
-
-            <Button
-                android:id="@+id/button11"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="131dp"
-                android:layout_height="wrap_content"
-                android:elevation="0dp"
-                android:text="Super Crop"
-                android:textAllCaps="false"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="246dp"
-                tools:text="Super Crop" />
-        </android.support.v7.widget.CardView>
-
-        <ImageView
-            android:id="@+id/btnTakePicImage1"
-            android:layout_width="321dp"
-            android:layout_height="141dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView5"
-            app:srcCompat="@color/colorPrimary" />
 
 
     </android.support.constraint.ConstraintLayout>
