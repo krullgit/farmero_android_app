@@ -5,16 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,13 +17,13 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 
-public class SettingsFragment extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
     Button btnLogOut;
     private EditText v;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
-    public SettingsFragment() {
+    public SettingsActivity() {
         // Required empty public constructor
     }
 
@@ -40,7 +34,7 @@ public class SettingsFragment extends AppCompatActivity {
         //constructor
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.fragment_settings);
+        setContentView(R.layout.activity_settings);
 
         // set variables
         btnLogOut = findViewById(R.id.btnLogOut);
@@ -49,7 +43,7 @@ public class SettingsFragment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent I = new Intent(SettingsFragment.this, ActivityLogin.class);
+                Intent I = new Intent(SettingsActivity.this, LoginActivity.class);
                 startActivity(I);
             }
 
@@ -83,14 +77,14 @@ public class SettingsFragment extends AppCompatActivity {
 ///**
 // * A simple {@link Fragment} subclass.
 // */
-//public class SettingsFragment extends Fragment {
+//public class SettingsActivity extends Fragment {
 //
 //    Button btnLogOut;
 //    private EditText v;
 //    FirebaseAuth firebaseAuth;
 //    private FirebaseAuth.AuthStateListener authStateListener;
 //
-//    public SettingsFragment() {
+//    public SettingsActivity() {
 //        // Required empty public constructor
 //    }
 //
@@ -99,7 +93,7 @@ public class SettingsFragment extends AppCompatActivity {
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
 //                             Bundle savedInstanceState) {
 //        // Inflate the layout for this fragment
-//        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+//        View view = inflater.inflate(R.layout.activity_settings, container, false);
 //
 //        // set variables
 //        btnLogOut = view.findViewById(R.id.btnLogOut);
@@ -108,7 +102,7 @@ public class SettingsFragment extends AppCompatActivity {
 //            @Override
 //            public void onClick(View v) {
 //                FirebaseAuth.getInstance().signOut();
-//                Intent I = new Intent(getActivity(), ActivityLogin.class);
+//                Intent I = new Intent(getActivity(), LoginActivity.class);
 //                startActivity(I);
 //            }
 //        });

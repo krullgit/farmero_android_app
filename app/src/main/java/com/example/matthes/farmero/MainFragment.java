@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.mapbox.geojson.Point;
 import com.mapbox.geojson.Polygon;
@@ -74,7 +73,7 @@ public class MainFragment extends Fragment {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SettingsFragment.class);
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
             }
         });

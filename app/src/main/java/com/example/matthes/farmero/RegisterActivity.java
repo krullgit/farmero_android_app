@@ -11,10 +11,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ActivityRegister extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     public EditText emailId, passwd;
     Button btnSignUp;
     TextView signIn;
@@ -41,30 +40,30 @@ public class ActivityRegister extends AppCompatActivity {
                     passwd.setError("Set your password");
                     passwd.requestFocus();
                 } else if (emailID.isEmpty() && paswd.isEmpty()) {
-                    Toast.makeText(ActivityRegister.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Fields Empty!", Toast.LENGTH_SHORT).show();
                 } else if (!(emailID.isEmpty() && paswd.isEmpty())) {
-                    firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(ActivityRegister.this, new OnCompleteListener() {
+                    firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
 
                             if (!task.isSuccessful()) {
-                                Toast.makeText(ActivityRegister.this.getApplicationContext(),
+                                Toast.makeText(RegisterActivity.this.getApplicationContext(),
                                         "SignUp unsuccessful: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(ActivityRegister.this, ActivityUser.class));
+                                startActivity(new Intent(RegisterActivity.this, UserActivity.class));
                             }
                         }
                     });
                 } else {
-                    Toast.makeText(ActivityRegister.this, "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Error", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent I = new Intent(ActivityRegister.this, ActivityLogin.class);
+                Intent I = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(I);
             }
         });

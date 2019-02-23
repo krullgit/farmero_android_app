@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ActivityUser extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity {
     Button btnLogOut;
     FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -23,7 +23,7 @@ public class ActivityUser extends AppCompatActivity {
             public void onClick(View view) {
 
                 FirebaseAuth.getInstance().signOut();
-                Intent I = new Intent(ActivityUser.this, ActivityLogin.class);
+                Intent I = new Intent(UserActivity.this, LoginActivity.class);
                 startActivity(I);
 
             }

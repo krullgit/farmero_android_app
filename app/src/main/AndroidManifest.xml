@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ActivityLogin"
+            android:name=".LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Pop"
+            android:name=".PopActivity"
             android:theme="@style/AppTheme.CustomTheme" />
 
         <provider
@@ -51,11 +51,11 @@
             android:name=".WebViewMap"
             android:label="@string/title_activity_field_map"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ActivityRegister" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".ActivityUser" />
+        <activity android:name=".UserActivity" />
         <activity android:name=".mapboxFragment" />
-        <activity android:name=".SettingsFragment" />
+        <activity android:name=".SettingsActivity" />
 
 
     </application>

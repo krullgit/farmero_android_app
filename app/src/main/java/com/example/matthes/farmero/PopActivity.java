@@ -2,17 +2,15 @@ package com.example.matthes.farmero;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
-public class Pop extends Activity {
+public class PopActivity extends Activity {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.popwindow);
+        setContentView(R.layout.activity_popwindow);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
 

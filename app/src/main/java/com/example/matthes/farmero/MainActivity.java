@@ -1,67 +1,30 @@
 package com.example.matthes.farmero;
 
 import android.Manifest;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
-import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.mapbox.android.core.permissions.PermissionsListener;
-import com.mapbox.android.core.permissions.PermissionsManager;
-import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.location.LocationComponent;
-import com.mapbox.mapboxsdk.location.modes.CameraMode;
-import com.mapbox.mapboxsdk.location.modes.RenderMode;
-import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.MapboxMapOptions;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.maps.SupportMapFragment;
-import com.mapbox.mapboxsdk.style.layers.LineLayer;
-import com.mapbox.mapboxsdk.style.layers.Property;
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
-import static android.os.Environment.getExternalStoragePublicDirectory;
 
 public class MainActivity extends AppCompatActivity /*implements PermissionsListener*/ {
 
@@ -70,9 +33,10 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
     private FrameLayout mMainFrame;
 
     private MainFragment mainFragment;
+    private FriendsFragment friendsFragment;
     private PhotoFragment photoFragment;
     private MapFragment mapFragment;
-    private SettingsFragment settingsFragment;
+    private SettingsActivity settingsFragment;
     private List<Point> routeCoordinates;
 
     // for current location
@@ -106,13 +70,14 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
         mainFragment = new MainFragment();
         mapFragment = new MapFragment();
         photoFragment = new PhotoFragment();
-        settingsFragment = new SettingsFragment();
+        settingsFragment = new SettingsActivity();
+        friendsFragment = new FriendsFragment();
 
 
+        loadMap(savedInstanceState);
 
 
-
-
+        setFragment(mainFragment);
 
 
         mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -131,55 +96,77 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
                         return true;
                     case R.id.nav_map:
 
+                        loadMap(savedInstanceState);
+
+                        return true;
+
+                    case R.id.nav_friends:
+                        setFragment(friendsFragment);
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+
+
+        });
+
+        // require permission to save pictures on phone
+        if (Build.VERSION.SDK_INT >= 23) {
+            Log.d("test", "test");
+            requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+        }
+
+        //#################### LISTENERS #######################
+
+
+    }
+
+    private void loadMap(Bundle savedInstanceState) {
+        // Create supportMapFragment
+        SupportMapFragment mapFragment;
+        if (savedInstanceState == null) {
+
+            // Create fragment
+            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            // Build mapboxMap
+            MapboxMapOptions options = new MapboxMapOptions();
+            options.camera(new CameraPosition.Builder()
+                    .target(new LatLng(51.171775896696396, 14.570703506469727))
+                    .zoom(14)
+                    .build());
+
+            // Create map fragment
+            mapFragment = SupportMapFragment.newInstance(options);
+
+            // Add map fragment to parent container
+            transaction.add(R.id.main_frame, mapFragment, "com.mapbox.map");
+            transaction.commit();
+        } else {
+            mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentByTag("com.mapbox.map");
+        }
+
+
+
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
 
 
 
 
+            @Override
+            public void onMapReady(@NonNull final MapboxMap mapboxMap) {
 
-                        // Create supportMapFragment
-                        SupportMapFragment mapFragment;
-                        if (savedInstanceState == null) {
 
-                            // Create fragment
-                            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-                            // Build mapboxMap
-                            MapboxMapOptions options = new MapboxMapOptions();
-                            options.camera(new CameraPosition.Builder()
-                                    .target(new LatLng(51.171775896696396, 14.570703506469727))
-                                    .zoom(14)
-                                    .build());
-
-                            // Create map fragment
-                            mapFragment = SupportMapFragment.newInstance(options);
-
-                            // Add map fragment to parent container
-                            transaction.add(R.id.main_frame, mapFragment, "com.mapbox.map");
-                            transaction.commit();
-                        } else {
-                            mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentByTag("com.mapbox.map");
-                        }
+                mapboxMap.setStyle(Style.SATELLITE, new Style.OnStyleLoaded() {
 
 
 
-                        mapFragment.getMapAsync(new OnMapReadyCallback() {
+                    @Override
+                    public void onStyleLoaded(@NonNull Style style) {
 
-
-
-
-                            @Override
-                            public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-
-
-                                mapboxMap.setStyle(Style.SATELLITE, new Style.OnStyleLoaded() {
-
-
-
-                                    @Override
-                                    public void onStyleLoaded(@NonNull Style style) {
-
-                                        // for current location
-                                        /*enableLocationComponent(style);*/
+                        // for current location
+                        /*enableLocationComponent(style);*/
 
 
                                         /*MarkerOptions options = new MarkerOptions();
@@ -206,37 +193,11 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
 
 
 
-                                    }
-                                });
-                            }
-                        });
-                        //setFragment(mapFragment);
-                        return true;
-
-
-
-
-
-
-                    case R.id.nav_friends:
-                        //setFragment(settingsFragment);
-                        return true;
-                    default:
-                        return false;
-                }
+                    }
+                });
             }
-
-
         });
-
-        // require permission to save pictures on phone
-        if (Build.VERSION.SDK_INT >= 23) {
-            Log.d("test", "test");
-            requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-        }
-
-        //#################### LISTENERS #######################
-
+        //setFragment(mapFragment);
 
     }
 
@@ -351,7 +312,7 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
 //    private FrameLayout mMainFrame;
 //
 //    private MainFragment mainFragment;
-//    private SettingsFragment settingsFragment;
+//    private SettingsActivity settingsFragment;
 //    private MapFragment mapFragment;
 //    private PhotoFragment photoFragment;
 //
@@ -389,7 +350,7 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
 //        mainFragment = new MainFragment();
 //        mapFragment = new MapFragment();
 //        photoFragment = new PhotoFragment();
-//        settingsFragment = new SettingsFragment();
+//        settingsFragment = new SettingsActivity();
 //
 //
 //        mMainNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -438,7 +399,7 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
 //        popUp.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, Pop.class));
+//                startActivity(new Intent(MainActivity.this, PopActivity.class));
 //            }
 //        });
 //
@@ -455,7 +416,7 @@ public class MainActivity extends AppCompatActivity /*implements PermissionsList
 //            @Override
 //            public void onClick(View v) {
 //
-//                startActivity(new Intent(MainActivity.this, ActivityRegister.class));
+//                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
 //            }
 //        });
 //        btnYield.setOnClickListener(new View.OnClickListener() {
