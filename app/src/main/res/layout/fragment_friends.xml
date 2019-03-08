@@ -13,6 +13,7 @@
         android:id="@+id/page_friends"
         android:layout_above="@id/main_nav">
 
+
         <ImageView
             android:id="@+id/friendsIcon"
             android:layout_width="168dp"

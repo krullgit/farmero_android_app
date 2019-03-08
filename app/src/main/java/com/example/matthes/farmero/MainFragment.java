@@ -39,6 +39,7 @@ public class MainFragment extends Fragment {
     FloatingActionButton settings;
     private static final List<List<Point>> POINTS = new ArrayList<>();
     private static final List<Point> OUTER_POINTS = new ArrayList<>();
+    FloatingActionButton polygone;
     // polygone for map
     static {
         OUTER_POINTS.add(Point.fromLngLat(14.566519260406494, 51.16942143993214));
@@ -71,12 +72,21 @@ public class MainFragment extends Fragment {
 
         // initialize parameters
         settings = view.findViewById(R.id.nav_settings2);
+        polygone = view.findViewById(R.id.floatingActionButton);
 
         // Listener
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        polygone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), polygonActivity.class);
                 startActivity(intent);
             }
         });

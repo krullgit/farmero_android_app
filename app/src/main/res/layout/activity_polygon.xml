@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".polygonActivity">
+
+    <fragment
+        android:id="@+id/googleMap"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".polygonActivity" />
+
+    <LinearLayout
+        style="@style/generic"
+        android:background="#F2F2F2"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/generic"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/buttonPolygon"
+                style="@style/button"
+                android:text="Connect Polygon" />
+
+            <Button
+                android:id="@+id/buttonReset"
+                style="@style/button"
+                android:text="Reset Map" />
+
+            <Button
+                android:id="@+id/buttonLocation"
+                style="@style/button"
+                android:text="C-Loc" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</FrameLayout>

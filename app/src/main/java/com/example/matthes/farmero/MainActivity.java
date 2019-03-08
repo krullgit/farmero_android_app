@@ -1,6 +1,7 @@
 package com.example.matthes.farmero;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -74,7 +75,9 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(mainFragment);
                         return true;
                     case R.id.nav_photo:
-                        setFragment(photoFragment);
+                        Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                        startActivity(intent);
+                        //setFragment(photoFragment);
                         return true;
                     case R.id.nav_map:
                         setFragment(mapboxFragment);
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         // require permission to save pictures on phone
         if (Build.VERSION.SDK_INT >= 23) {
-            Log.d("test", "test");
+            Log.d("fragment_camera2_basic", "fragment_camera2_basic");
             requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
         }
     }
@@ -222,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //        // require permission to save pictures on phone
 //        if(Build.VERSION.SDK_INT >= 23){
-//            Log.d("test","test");
+//            Log.d("fragment_camera2_basic","fragment_camera2_basic");
 //            requestPermissions(new  String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
 //        }
 //
