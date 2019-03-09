@@ -16,8 +16,9 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="MaterialTheme" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" />
-    <style name="AppTheme.Picker" parent="android:Theme.Material.Light.NoActionBar.Fullscreen" >
-         <item name="android:textColorPrimary">@android:color/white</item>
+
+    <style name="AppTheme.Picker" parent="android:Theme.Material.Light.NoActionBar.Fullscreen">
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
     <style name="generic">
@@ -31,5 +32,10 @@
 
     <style name="seekbar" parent="generic">
         <item name="android:max">255</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

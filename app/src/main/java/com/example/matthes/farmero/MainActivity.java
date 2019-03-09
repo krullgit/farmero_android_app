@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.mapbox.geojson.Point;
@@ -80,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
                         //setFragment(photoFragment);
                         return true;
                     case R.id.nav_map:
-                        setFragment(mapboxFragment);
+
+                        Intent intent2 = new Intent(MainActivity.this, LocationComponentActivity.class);
+                        startActivity(intent2);
                         return true;
                     case R.id.nav_friends:
                         setFragment(friendsFragment);

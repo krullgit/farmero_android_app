@@ -14,29 +14,40 @@
         tools:context=".polygonActivity" />
 
     <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         style="@style/generic"
-        android:background="#F2F2F2"
+        android:background="#00F2F2F2"
         android:orientation="vertical">
 
         <LinearLayout
             style="@style/generic"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
 
-
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/buttonPolygon"
-                style="@style/button"
-                android:text="Connect Polygon" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Connect"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#00b09b"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/buttonReset"
-                style="@style/button"
-                android:text="Reset Map" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#35C772"/>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/buttonLocation"
-                style="@style/button"
-                android:text="C-Loc" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="#96c93d"/>
+
 
         </LinearLayout>
 
