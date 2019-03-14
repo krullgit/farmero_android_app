@@ -39,6 +39,8 @@ import java.util.List;
 public class MapboxFragment extends Fragment {
 
 
+
+
     // required constructor
     public MapboxFragment() {
         // Required empty public constructor
@@ -63,7 +65,7 @@ public class MapboxFragment extends Fragment {
             MapboxMapOptions options = new MapboxMapOptions();
             options.camera(new CameraPosition.Builder()
                     .target(new LatLng(51.171775896696396, 14.570703506469727))
-                    .zoom(14)
+                    .zoom(15)
                     .build());
 
             // Create map fragment
@@ -80,6 +82,8 @@ public class MapboxFragment extends Fragment {
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(@NonNull MapboxMap mapboxMap) {
+
+
 
 //                mapboxMap.addSource(source);
 //                mapboxMap.addLayer(new LineLayer("geojson", "geojson"));
@@ -152,4 +156,8 @@ public class MapboxFragment extends Fragment {
         fin.close();
         return ret;
     }
+
+
+
+
 }

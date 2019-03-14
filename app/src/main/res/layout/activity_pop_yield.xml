@@ -7,10 +7,11 @@
     android:background="#90ce4e">
 
     <ImageView
+        android:id="@+id/pop_yield"
         android:layout_width="345dp"
         android:layout_height="660dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
-        android:src="@drawable/iamgreat" />
+        android:src="@drawable/pop_yield" />
 </RelativeLayout>

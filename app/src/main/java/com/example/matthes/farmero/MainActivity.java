@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     // like a constructor
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -82,9 +84,11 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.nav_map:
 
-                        Intent intent2 = new Intent(MainActivity.this, LocationComponentActivity.class);
-                        startActivity(intent2);
+                        setFragment(mapboxFragment);
                         return true;
+//                        Intent intent2 = new Intent(MainActivity.this, LocationComponentActivity.class);
+//                        startActivity(intent2);
+//                        return true;
                     case R.id.nav_friends:
                         setFragment(friendsFragment);
                         return true;

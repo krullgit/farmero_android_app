@@ -124,6 +124,7 @@ public class LocationComponentActivity extends AppCompatActivity implements
         // Open File
         String coordStringList[] = coordString.split("#");
 
+        // Create List with coordinates
         Log.d("coordString.length: ",""+coordString.length());
         Log.d("coordString.length: ",""+coordStringList.toString());
         int i;
@@ -147,7 +148,7 @@ public class LocationComponentActivity extends AppCompatActivity implements
         POINTS.add(OUTER_POINTS);
 
 
-        // Open File
+        // Ass marker
         String points = readFromFile(pointsFile);
         String pointsList[] = points.split("#");
         int j;
@@ -166,12 +167,12 @@ public class LocationComponentActivity extends AppCompatActivity implements
             //mapboxMap.addMarker(new MarkerOptions()
             //        .position(new LatLng(lat, lon))
             //        .title("Eiffel Tower"));
+
             mapboxMap.addMarker(new MarkerOptions()
                     .position(new LatLng(lat,lon))
-                    .icon(IconFactory.getInstance(this).fromResource(R.drawable.yellowpoint))
+                    .icon(IconFactory.getInstance(this).fromResource(R.drawable.yellowpoint_marker))
             );
         }
-
 
 
         mapboxMap.setStyle(Style.SATELLITE_STREETS,
@@ -200,7 +201,6 @@ public class LocationComponentActivity extends AppCompatActivity implements
                         ));
                     }
                 });
-
     }
 
     @SuppressWarnings( {"MissingPermission"})

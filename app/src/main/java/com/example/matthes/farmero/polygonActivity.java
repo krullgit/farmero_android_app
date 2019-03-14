@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -99,6 +100,8 @@ public class polygonActivity extends AppCompatActivity implements OnMapReadyCall
         setButtonPolygonListener();
         setButtonClearListener();
 
+
+
     }
 
     private void setupUI(){
@@ -107,6 +110,8 @@ public class polygonActivity extends AppCompatActivity implements OnMapReadyCall
         buttonPolygon = findViewById(R.id.buttonPolygon);
         buttonClear = findViewById(R.id.buttonReset);
         save = findViewById(R.id.buttonLocation);
+
+
     }
 
     private void setButtonPolylineListener() {
@@ -153,7 +158,26 @@ public class polygonActivity extends AppCompatActivity implements OnMapReadyCall
         sb.replace(sb.length()-1,sb.length(),"]");
 
         // Communicate with the nodeJS Server and download the files
-        new DownloadFileFromURL().execute(baseUrl+sb.toString());
+        try{
+            new DownloadFileFromURL().execute(baseUrl + sb.toString()).execute().get();
+////                        .setAction("Action", null).show();
+            // this is not working
+            Snackbar snackBar = Snackbar.make(findViewById(android.R.id.content),
+                    "Your Field is set up!", Snackbar.LENGTH_LONG);
+            snackBar.setAction("OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    snackBar.dismiss();
+                }
+            });
+            snackBar.show();
+        } catch (Exception e) {
+
+        }
+
+
+
+
     }
 
     private void setButtonPolygonListener() {
@@ -232,13 +256,6 @@ public class polygonActivity extends AppCompatActivity implements OnMapReadyCall
         PolygonOptions polygonOptions = new PolygonOptions().addAll(listLatLngs).clickable(true);
         polygon = googleMap.addPolygon(polygonOptions);
         polygon.setStrokeColor(R.color.colorWhite);
-
-
-
-
-
-
-
     }
 
     private void resetMap(){
