@@ -18,8 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".sliderActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".popMildewActivity"></activity>
+        <activity android:name=".sliderActivity" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".LocationComponentActivity"
             android:label="@string/title_activity_location_component"

@@ -12,12 +12,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
 
 import com.mapbox.geojson.Feature;
@@ -64,6 +62,7 @@ public class MainFragment extends Fragment {
     ImageView field;
     LinearLayout buttonYield;
     LinearLayout buttonLoss;
+    LinearLayout buttonMildrew;
     ImageView buttonnvdi;
     ImageView buttonrgb;
     private static final List<List<Point>> POINTS = new ArrayList<>();
@@ -95,6 +94,7 @@ public class MainFragment extends Fragment {
         polygone = view.findViewById(R.id.floatingActionButton);
         buttonYield = view.findViewById(R.id.buttonYield);
         buttonLoss = view.findViewById(R.id.buttonLoss);
+        buttonMildrew = view.findViewById(R.id.buttonMildrew);
         buttonnvdi = view.findViewById(R.id.btn_nvdi);
         buttonrgb = view.findViewById(R.id.btn_rgb);
         imagesliderfirst = view.findViewById(R.id.image_slider_first);
@@ -150,6 +150,13 @@ public class MainFragment extends Fragment {
             public void onClick(View v) {
                 imagesliderfirst.setImageResource(R.drawable.nvdiday1_color);
                 imageslidersecond.setImageResource(R.drawable.nvdiday2_color);
+            }
+        });
+        buttonMildrew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), popMildewActivity.class);
+                startActivity(intent);
             }
         });
 
