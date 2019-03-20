@@ -2,17 +2,26 @@ package com.example.matthes.farmero;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
+import com.mapbox.geojson.Polygon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.geometry.LatLng;
@@ -21,7 +30,10 @@ import com.mapbox.mapboxsdk.maps.MapboxMapOptions;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.maps.SupportMapFragment;
+import com.mapbox.mapboxsdk.style.layers.FillLayer;
 import com.mapbox.mapboxsdk.style.layers.LineLayer;
+import com.mapbox.mapboxsdk.style.layers.Property;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.light.Position;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.geojson.Feature;
@@ -29,14 +41,37 @@ import com.mapbox.geojson.FeatureCollection;
 
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MapboxFragment extends Fragment {
+
+
+    // properties
+    FloatingActionButton settings;
+    ImageView field;
+    LinearLayout buttonYield;
+    LinearLayout buttonLoss;
+    LinearLayout buttonMildrew;
+    ImageView buttonnvdi;
+    ImageView buttonrgb;
+    private static final List<List<Point>> POINTS = new ArrayList<>();
+    private static final List<Point> OUTER_POINTS = new ArrayList<>();
+    FloatingActionButton polygone;
+    private static String pointsFile = "/storage/emulated/0/Download/points.txt";
+    private SeekBar seekBar;
+    ImageView imagesliderfirst;
+    ImageView imageslidersecond;
+
 
 
 
@@ -64,8 +99,8 @@ public class MapboxFragment extends Fragment {
             // Build mapboxMap
             MapboxMapOptions options = new MapboxMapOptions();
             options.camera(new CameraPosition.Builder()
-                    .target(new LatLng(51.171775896696396, 14.570703506469727))
-                    .zoom(15)
+                    .target(new LatLng(51.575037, 12.946546))
+                    .zoom(14)
                     .build());
 
             // Create map fragment
@@ -85,6 +120,7 @@ public class MapboxFragment extends Fragment {
 
 
 
+
 //                mapboxMap.addSource(source);
 //                mapboxMap.addLayer(new LineLayer("geojson", "geojson"));
 
@@ -97,34 +133,51 @@ public class MapboxFragment extends Fragment {
 
 
                 mapboxMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(51.171775896696396, 14.570703506469727))
-                        .title("Eiffel Tower"));
+                        .position(new LatLng(51.574903, 12.942841))
+                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.squash))
+                        .title("Squash Powdery Mildrew"));
+
+                mapboxMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(51.579692, 12.954649))
+                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.maize))
+                        .title("Maize Gray Spot"));
+
+                mapboxMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(51.561064, 12.916913))
+                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.bell_pepper))
+                        .title("Bell Pepper Bacterial Spot"));
 
                 mapboxMap.setStyle(Style.SATELLITE, new Style.OnStyleLoaded() {
                     @Override
                     public void onStyleLoaded(@NonNull Style style) {
 
 
-                        // for current location
-                        /*enableLocationComponent(style);*/
+//
+//                        // ADD the Polygon
+//                        style.addSource(new GeoJsonSource("source-id", Polygon.fromLngLats(POINTS)));
+//                        style.addLayer(new FillLayer("layer-id", "source-id").withProperties(
+//                                fillColor(Color.parseColor("#3CFFEA00")))
+//                        );
 
+                            style.addSource(new GeoJsonSource("source-id", Polygon.fromLngLats(POINTS)));
 
-/*
-                        // Add the marker image to map
-                        style.addImage("marker-icon-id",
-                                BitmapFactory.decodeResource(
-                                        MainActivity.this.getResources(), R.drawable.camera));
+                            Log.d("OUTER_POINTS: ",""+OUTER_POINTS);
+                            style.addSource(new GeoJsonSource("line-source",
+                                    FeatureCollection.fromFeatures(new Feature[] {Feature.fromGeometry(
+                                            LineString.fromLngLats(OUTER_POINTS)
+                                    )})));
 
-                        GeoJsonSource geoJsonSource = new GeoJsonSource("source-id", Feature.fromGeometry(
-                                Point.fromLngLat(51.171775896696396, 14.570703506469727)));
-                        style.addSource(geoJsonSource);
+                            style.addLayer(new FillLayer("layer-id", "source-id").withProperties(
+                                    fillColor(Color.parseColor("#22ffc20c")))
+                            );
 
-                        SymbolLayer symbolLayer = new SymbolLayer("layer-id", "source-id");
-                        symbolLayer.withProperties(
-                                PropertyFactory.iconImage("marker-icon-id")
-                        );
-                        style.addLayer(symbolLayer);
-                        */
+                            style.addLayer(new LineLayer("linelayer", "line-source").withProperties(
+                                    PropertyFactory.lineDasharray(new Float[] {0.01f, 2f}),
+                                    PropertyFactory.lineCap(Property.LINE_CAP_ROUND),
+                                    PropertyFactory.lineJoin(Property.LINE_JOIN_ROUND),
+                                    PropertyFactory.lineWidth(2.3f),
+                                    PropertyFactory.lineColor(Color.parseColor("#ffc20c"))
+                            ));
 
                     }
                 });
@@ -133,6 +186,45 @@ public class MapboxFragment extends Fragment {
 
         });
         return view;
+    }
+
+    private String readFromFile(String fileName) {
+        InputStream in = null;
+        try {
+            in = new FileInputStream(fileName);
+            InputStreamReader isr = new InputStreamReader(in);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                sb.append(line);
+            }
+            return String.valueOf(sb);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String readSavedData ( ) {
+        StringBuffer datax = new StringBuffer("");
+        try {
+            FileInputStream fIn = getActivity().openFileInput ( "fields_field_1" );
+            InputStreamReader isr = new InputStreamReader ( fIn ) ;
+            BufferedReader buffreader = new BufferedReader ( isr ) ;
+
+            String readString = buffreader.readLine ( ) ;
+            while ( readString != null ){
+                datax.append(readString);
+                readString = buffreader.readLine ( ) ;
+            }
+
+            isr.close ( ) ;
+        } catch ( IOException ioe ) {
+            ioe.printStackTrace ( ) ;
+        }
+        return datax.toString() ;
+
     }
 
     private static String convertStreamToString(InputStream is) throws Exception {

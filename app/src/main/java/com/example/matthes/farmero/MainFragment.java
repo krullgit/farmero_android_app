@@ -141,8 +141,8 @@ public class MainFragment extends Fragment {
         buttonrgb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imagesliderfirst.setImageResource(R.drawable.stack_day1);
-                imageslidersecond.setImageResource(R.drawable.stack_day2);
+                imagesliderfirst.setImageResource(R.drawable.rgb_day1);
+                imageslidersecond.setImageResource(R.drawable.rgb_day2);
             }
         });
         buttonnvdi.setOnClickListener(new View.OnClickListener() {
