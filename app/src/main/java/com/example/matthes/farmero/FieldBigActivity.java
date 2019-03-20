@@ -46,10 +46,16 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineColor;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
 
+
 /**
- * Use the LocationComponent to easily add a device location "puck" to a Mapbox map.
+ * The class:
+ * - loads a mapbox map
+ * - loads the risk areas from local storage and shows them on the map
+ * - loads the te field polygon from the local storage and shows it on the map
+ * - shows the current user location on the map
  */
-public class LocationComponentActivity extends AppCompatActivity implements
+
+public class FieldBigActivity extends AppCompatActivity implements
         OnMapReadyCallback, PermissionsListener {
 
     private PermissionsManager permissionsManager;
@@ -116,7 +122,7 @@ public class LocationComponentActivity extends AppCompatActivity implements
 
     @Override
     public void onMapReady(@NonNull final MapboxMap mapboxMap) {
-        LocationComponentActivity.this.mapboxMap = mapboxMap;
+        FieldBigActivity.this.mapboxMap = mapboxMap;
 
 
         String coordString = readSavedData();

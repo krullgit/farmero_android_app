@@ -15,7 +15,11 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 
-
+/**
+ * The class:
+ * - shows the view "settings" to the farmer
+ * - gives logout functionality
+ */
 
 public class SettingsActivity extends AppCompatActivity {
 

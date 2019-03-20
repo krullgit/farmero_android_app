@@ -7,7 +7,6 @@ package com.example.matthes.farmero;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,23 +15,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
-import android.widget.SeekBar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Dot;
-import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -40,7 +32,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -50,11 +41,17 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.example.matthes.farmero.LocationComponentActivity.progress_bar_type;
+/**
+ * The class:
+ * - loads google maps
+ * - user can select a polygon and save it locally
+ * - polygon gets send to the backend
+ * - backend responds with field analyses and app stores them
+ */
+
 
 public class polygonActivity extends AppCompatActivity implements OnMapReadyCallback{
 
@@ -73,8 +70,8 @@ public class polygonActivity extends AppCompatActivity implements OnMapReadyCall
     private ProgressDialog pDialog;
     public static final int progress_bar_type = 0;
 
-    // File url to download
-    private static String file_url = "http://10.0.2.2:3000/?coord=[[12.941725850371768,51.57971352400993],[12.942047715453555,51.57588640768779],[12.940846085814883,51.571032040481654],[12.943442464141299,51.57112539858611],[12.944708466796328,51.570671943139885],[12.948763966826846,51.57088533450155],[12.949965596465518,51.57121875649885],[12.951789498595645,51.570325180040776],[12.954450249938418,51.57021848317042],[12.954471707610537,51.571432145293755],[12.946274876861025,51.580113552408065],[12.941725850371768,51.57971352400993]]";
+    // File url to download (static dummy url)
+    //private static String file_url = "http://10.0.2.2:3000/?coord=[[12.941725850371768,51.57971352400993],[12.942047715453555,51.57588640768779],[12.940846085814883,51.571032040481654],[12.943442464141299,51.57112539858611],[12.944708466796328,51.570671943139885],[12.948763966826846,51.57088533450155],[12.949965596465518,51.57121875649885],[12.951789498595645,51.570325180040776],[12.954450249938418,51.57021848317042],[12.954471707610537,51.571432145293755],[12.946274876861025,51.580113552408065],[12.941725850371768,51.57971352400993]]";
 
     ///data/user/0/com.example.matthes.farmero/files
     //File directory = getApplicationContext().getFilesDir();
@@ -142,7 +139,7 @@ public class polygonActivity extends AppCompatActivity implements OnMapReadyCall
         }
 
         // create URL String out of the selected Polygone
-        Log.d("file_url: ",file_url);
+        //Log.d("file_url: ",file_url);
         //"http://10.0.2.2:3000/?coord=[[12.941725850371768,51.57971352400993],[12.942047715453555,51.57588640768779],[12.940846085814883,51.571032040481654],[12.943442464141299,51.57112539858611],[12.944708466796328,51.570671943139885],[12.948763966826846,51.57088533450155],[12.949965596465518,51.57121875649885],[12.951789498595645,51.570325180040776],[12.954450249938418,51.57021848317042],[12.954471707610537,51.571432145293755],[12.946274876861025,51.580113552408065],[12.941725850371768,51.57971352400993]]";
         String baseUrl = "http://35.204.175.152:3000/?coord=";
         String coords = listLatLngs.toString();

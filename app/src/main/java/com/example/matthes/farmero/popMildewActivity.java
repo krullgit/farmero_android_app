@@ -8,6 +8,11 @@ package com.example.matthes.farmero;
         import android.view.View;
         import android.widget.ImageView;
 
+/**
+ * The class:
+ * - shows the popup "what is mildew" to the user
+ */
+
 public class popMildewActivity extends Activity {
 
     @Override

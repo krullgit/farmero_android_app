@@ -13,6 +13,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * The class:
+ * - let the user register with firebase
+ */
+
 public class RegisterActivity extends AppCompatActivity {
 
     // parameter

@@ -6,7 +6,14 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 
-public class sliderActivity extends AppCompatActivity {
+/*************** CLASS NOT IN USE *****************/
+
+/**
+ * The class:
+ * - shows the satellite image slider in a new activity
+ */
+
+public class UNUSEDsliderActivity extends AppCompatActivity {
 
     private SeekBar seekBar;
 

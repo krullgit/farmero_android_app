@@ -15,6 +15,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * The class:
+ * - connects to Firebase for authentication of the user credentials
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     // parameter

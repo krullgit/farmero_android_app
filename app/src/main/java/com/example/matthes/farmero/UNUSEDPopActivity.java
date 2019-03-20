@@ -4,7 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
-public class PopActivity extends Activity {
+/*************** CLASS NOT IN USE *****************/
+/**
+ * The class:
+ * - shows the popup "farmer improved the app" to the user
+ */
+
+public class UNUSEDPopActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

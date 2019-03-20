@@ -12,7 +12,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class DELETEWebViewMap extends AppCompatActivity {
+/*************** CLASS NOT IN USE *****************/
+
+/**
+ * The class can be used to include a webpage as part of the application.
+ */
+
+public class UNUSEDWebViewMap extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

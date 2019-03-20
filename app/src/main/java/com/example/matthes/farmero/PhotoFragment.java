@@ -8,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+/*************** CLASS NOT IN USE *****************/
+
 /**
- * A simple {@link Fragment} subclass.
+ * The class:
+ * - is used to take and save a picture.
  */
+
 public class PhotoFragment extends Fragment {
 
     // constructor

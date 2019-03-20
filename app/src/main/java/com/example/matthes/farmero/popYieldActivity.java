@@ -6,6 +6,11 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 
+/**
+ * The class:
+ * - shows the popup "what is yield" to the user
+ */
+
 public class popYieldActivity extends Activity {
 
     @Override

@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+/**
+ * The class:
+ * - shows the popup "what is loss" to the user
+ */
+
 public class popLossActivity extends Activity {
 
     @Override

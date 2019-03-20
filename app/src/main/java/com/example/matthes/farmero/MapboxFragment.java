@@ -51,8 +51,11 @@ import java.util.List;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
 
 /**
- * A simple {@link Fragment} subclass.
+ * The class:
+ * - loads a mapbox map
+ * - shows diseases in my fields and the fields of friends.
  */
+
 public class MapboxFragment extends Fragment {
 
 

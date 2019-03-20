@@ -53,8 +53,10 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.fillColor;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * The class:
+ * - is the main tab of the app containing the overview of the fields like yield, loss, map with risk areas, satellite image exploring, disease gallery ...
  */
+
 public class MainFragment extends Fragment {
 
     // properties
@@ -120,7 +122,7 @@ public class MainFragment extends Fragment {
         field.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LocationComponentActivity.class);
+                Intent intent = new Intent(getActivity(), FieldBigActivity.class);
                 startActivity(intent);
             }
         });
@@ -164,7 +166,7 @@ public class MainFragment extends Fragment {
 
 
 
-
+        // showing the slider for satellite images
         seekBar = (SeekBar) view.findViewById(R.id.seekBar1);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -234,8 +236,7 @@ public class MainFragment extends Fragment {
 
 
 
-
-                String coordString = readSavedData();
+                  String coordString = readSavedData();
                 Log.d("coordString: ", ""+coordString);
                 // Open File
                 String coordStringList[] = coordString.split("#");

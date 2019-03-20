@@ -12,6 +12,11 @@ import android.widget.Button;
 
 
 /**
+ * The class:
+ * shows a friends network mockup in a tab
+ */
+
+/**
  * A simple {@link Fragment} subclass.
  */
 public class FriendsFragment extends Fragment {

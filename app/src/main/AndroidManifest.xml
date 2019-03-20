@@ -19,10 +19,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".popMildewActivity"></activity>
-        <activity android:name=".sliderActivity" />
+        <activity android:name=".UNUSEDsliderActivity" />
         <activity android:name=".MainActivity" />
         <activity
-            android:name=".LocationComponentActivity"
+            android:name=".FieldBigActivity"
             android:label="@string/title_activity_location_component"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PopActivity"
+            android:name=".UNUSEDPopActivity"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
             android:name=".popLossActivity"
@@ -59,7 +59,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".DELETEWebViewMap"
+            android:name=".UNUSEDWebViewMap"
             android:label="@string/title_activity_field_map"
             android:theme="@style/AppTheme" />
         <activity android:name=".RegisterActivity" />
