@@ -2,8 +2,11 @@ package com.example.matthes.farmero;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -39,6 +42,7 @@ import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,7 +68,7 @@ public class MainFragment extends Fragment {
     ImageView field;
     LinearLayout buttonYield;
     LinearLayout buttonLoss;
-    LinearLayout buttonMildrew;
+    ImageView buttonMildrew;
     ImageView buttonnvdi;
     ImageView buttonrgb;
     private static final List<List<Point>> POINTS = new ArrayList<>();
@@ -74,6 +78,7 @@ public class MainFragment extends Fragment {
     private SeekBar seekBar;
     ImageView imagesliderfirst;
     ImageView imageslidersecond;
+    ImageView disease1;
 
     // polygone for map
 
@@ -96,11 +101,12 @@ public class MainFragment extends Fragment {
         polygone = view.findViewById(R.id.floatingActionButton);
         buttonYield = view.findViewById(R.id.buttonYield);
         buttonLoss = view.findViewById(R.id.buttonLoss);
-        buttonMildrew = view.findViewById(R.id.buttonMildrew);
+        buttonMildrew = view.findViewById(R.id.disease1);
         buttonnvdi = view.findViewById(R.id.btn_nvdi);
         buttonrgb = view.findViewById(R.id.btn_rgb);
         imagesliderfirst = view.findViewById(R.id.image_slider_first);
         imageslidersecond = view.findViewById(R.id.image_slider_last);
+        disease1 =  view.findViewById(R.id.disease1);
 
         // Listener
         settings.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +167,44 @@ public class MainFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+
+
+        // loading Image to the Gallery
+
+        String photoPath = Environment.getExternalStorageDirectory() + "/diseasedPhoto0.jpg";
+
+        // Get the dimensions of the View
+        int targetW = disease1.getWidth();
+        int targetH = disease1.getHeight();
+
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(photoPath, bmOptions);
+
+
+
+        File f = new File(photoPath);
+        if(f.exists()){
+
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
+
+            // Determine how much to scale down the image
+            int scaleFactor = Math.min(photoW/300, photoH/300);
+
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = scaleFactor;
+            bmOptions.inPurgeable = true;
+
+            Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+            disease1.setImageBitmap(bitmap);
+        }
+
 
 
 
@@ -290,9 +334,6 @@ public class MainFragment extends Fragment {
                             .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.yellowpoint_marker))
                     );
                 }
-
-
-
 
 
                 mapboxMap.setStyle(Style.SATELLITE, new Style.OnStyleLoaded() {

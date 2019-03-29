@@ -134,7 +134,7 @@
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/farmer" />
+                    android:src="@drawable/farmer2" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
 
                         android:paddingTop="5dp"
                         android:paddingBottom="1dp"
-                        android:text="Lukas"
+                        android:text="Frank"
                         android:textColor="@color/colorBlack"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -161,7 +161,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingBottom="15dp"
-                        android:text="Reports 15 | Fields 3"
+                        android:text="Reports 35 | Fields 5"
                         android:textColor="@color/colorBlack"
                         android:textSize="15sp" />
 

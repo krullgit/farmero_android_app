@@ -492,10 +492,11 @@
 
 
                         <ImageView
-                            android:layout_width="150dp"
-                            android:layout_height="100dp"
+                            android:id="@+id/disease1"
+                            android:layout_width="300px"
+                            android:layout_height="300px"
                             android:layout_marginRight="10dp"
-                            android:src="@drawable/disease1" />
+                            />
 
                         <LinearLayout
                             android:layout_width="250dp"
@@ -527,91 +528,6 @@
                     </LinearLayout>
 
 
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="20dp">
-
-
-                        <ImageView
-                            android:layout_width="150dp"
-                            android:layout_height="100dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@drawable/disease3" />
-
-                        <LinearLayout
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="0dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:paddingTop="0dp"
-                                android:text="Gray Spot"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="20dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="4dp"
-                                android:paddingBottom="4dp"
-                                android:text="19.03.2019"
-                                android:textColor="#888888"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="20dp"
-                        android:id="@+id/buttonMildrew">
-
-
-                        <ImageView
-                            android:layout_width="150dp"
-                            android:layout_height="100dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@drawable/disease2" />
-
-                        <LinearLayout
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="0dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentStart="true"
-                                android:paddingTop="0dp"
-                                android:text="Powdery Mildew"
-                                android:textColor="@color/colorBlack"
-                                android:textSize="20dp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingTop="4dp"
-                                android:text="19.03.2019"
-                                android:textColor="#888888"
-                                android:textSize="15dp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-
-                    </LinearLayout>
 
 
 
