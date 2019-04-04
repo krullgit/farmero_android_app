@@ -49,7 +49,6 @@ import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
@@ -61,11 +60,8 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
@@ -98,7 +94,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Basic fragments for the Camera.
  */
-public class Camera2BasicFragment extends Fragment
+public class BACKUPCamera2BasicFragment extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
 
     /**
@@ -120,7 +116,6 @@ public class Camera2BasicFragment extends Fragment
     private ImageClassifier classifier;
     private ListView deviceView;
     private ListView modelView;
-    private FrameLayout pnlFlash;
     private ImageView showImage;
     private FloatingActionButton floatingActionButton;
     private String classificationResult;
@@ -133,7 +128,40 @@ public class Camera2BasicFragment extends Fragment
 
 
 
+    // from here https://www.youtube.com/watch?v=fPFr0So1LmI
+    private void getDeviceLocation(){
+        Log.d("Location:", "getDeviceLocation: getting the devices current location");
 
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        try{
+            if(mLocationPermissionsGranted){
+
+                final Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Log.d("Location:", "onComplete: found location!");
+                            Location currentLocation = (Location) task.getResult();
+
+
+                            Log.d("lat",""+currentLocation.getLatitude());
+                            Log.d("lon",""+currentLocation.getLongitude());
+                            lon = currentLocation.getLongitude();
+                            lat = currentLocation.getLatitude();
+
+                        }else{
+                            Log.d("Location:", "onComplete: current location is null");
+                            Toast.makeText(getActivity(), "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }catch (SecurityException e){
+            Log.e("Location:", "getDeviceLocation: SecurityException: " + e.getMessage() );
+        }
+    }
 
     /**
      * Max preview width that is guaranteed by Camera2 API
@@ -386,8 +414,8 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    public static Camera2BasicFragment newInstance() {
-        return new Camera2BasicFragment();
+    public static BACKUPCamera2BasicFragment newInstance() {
+        return new BACKUPCamera2BasicFragment();
     }
 
     /**
@@ -395,10 +423,9 @@ public class Camera2BasicFragment extends Fragment
      */
     @Override
     public View onCreateView(
-            LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("GGGGGGGG","FFFFFFFF");
-        View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
+        LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_camera2_basic, container, false);
 
 
         floatingActionButton = (FloatingActionButton) view.findViewById((R.id.floatingActionButton));
@@ -409,42 +436,9 @@ public class Camera2BasicFragment extends Fragment
                 Bitmap bitmap = textureView.getBitmap(classifier.getImageSizeX(), classifier.getImageSizeY());
 
 
-
-                // make flash
-                pnlFlash = (FrameLayout) view.findViewById(R.id.pnlFlash);
-                pnlFlash.setVisibility(View.VISIBLE);
-                AlphaAnimation fade = new AlphaAnimation(1, 0);
-                fade.setDuration(600);
-                fade.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-                    @Override
-                    public void onAnimationEnd(Animation anim) {
-                        pnlFlash.setVisibility(View.GONE);
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-                });
-                pnlFlash.startAnimation(fade);
-
-
-                // Show welcome message
-                Snackbar snackbar = Snackbar.make(view.findViewById(R.id.myCoordinatorLayout),
-                        "Your picture is saved to the gallery.", Snackbar.LENGTH_LONG);
-                snackbar.setAction("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                    }
-                });
-                snackbar.show();
-
-
-
                 try {
 
-                    // save image
+                    // safe image
                     String path = Environment.getExternalStorageDirectory().toString();
                     OutputStream fOut = null;
                     Integer counter = 0;
@@ -458,7 +452,7 @@ public class Camera2BasicFragment extends Fragment
 
                     MediaStore.Images.Media.insertImage(getContext().getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
 
-                    // save text
+                    // safe text
                     File fileText = new File(path, "diseasedText" + counter + ".txt");
                     FileOutputStream fileOutputText = new FileOutputStream(fileText);
                     OutputStreamWriter outputStreamWriter=new OutputStreamWriter(fileOutputText);
@@ -467,7 +461,7 @@ public class Camera2BasicFragment extends Fragment
                     fileOutputText.getFD().sync();
                     outputStreamWriter.close();
 
-                    // save date
+                    // safe date
                     Date c = Calendar.getInstance().getTime();
                     System.out.println("Current time => " + c);
 
@@ -482,21 +476,21 @@ public class Camera2BasicFragment extends Fragment
                     fileOutputDate.getFD().sync();
                     outputStreamWriterDate.close();
 
+                    // get Location
+                    getDeviceLocation();
 
-
-                    // save disease in Firebase
+                    // safe disease in Firebase
                     Log.d("Location:", "getDeviceLocation: getting the devices current location");
                     mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
                     try{
                         if(mLocationPermissionsGranted){
 
-                            // from here https://www.youtube.com/watch?v=fPFr0So1LmI
                             final Task location = mFusedLocationProviderClient.getLastLocation();
                             location.addOnCompleteListener(new OnCompleteListener() {
                                 @Override
                                 public void onComplete(@NonNull Task task) {
                                     if(task.isSuccessful()){
-                                        Log.d("Location:", "onComplete: found loccation!");
+                                        Log.d("Location:", "onComplete: found location!");
                                         Location currentLocation = (Location) task.getResult();
 
 
@@ -523,14 +517,11 @@ public class Camera2BasicFragment extends Fragment
                     }
 
 
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-
             }
-
         });
 
         return view;
@@ -605,8 +596,6 @@ public class Camera2BasicFragment extends Fragment
      */
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-
-
         gpu = getString(R.string.gpu);
         cpu = getString(R.string.cpu);
         nnApi = getString(R.string.nnapi);
@@ -620,8 +609,6 @@ public class Camera2BasicFragment extends Fragment
         textView = (TextView) view.findViewById(R.id.text);
         deviceView = (ListView) view.findViewById(R.id.device);
         modelView = (ListView) view.findViewById(R.id.model);
-
-
 
 
         // Build list of models
@@ -1118,8 +1105,5 @@ public class Camera2BasicFragment extends Fragment
                             })
                     .create();
         }
-
     }
-
-
 }

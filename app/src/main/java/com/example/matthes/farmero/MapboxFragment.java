@@ -1,23 +1,33 @@
 package com.example.matthes.farmero;
 
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mapbox.geojson.LineString;
 import com.mapbox.geojson.Point;
 import com.mapbox.geojson.Polygon;
@@ -34,7 +44,6 @@ import com.mapbox.mapboxsdk.style.layers.FillLayer;
 import com.mapbox.mapboxsdk.style.layers.LineLayer;
 import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
-import com.mapbox.mapboxsdk.style.light.Position;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.FeatureCollection;
@@ -74,8 +83,10 @@ public class MapboxFragment extends Fragment {
     private SeekBar seekBar;
     ImageView imagesliderfirst;
     ImageView imageslidersecond;
-
-
+    private DatabaseReference databaseReference;
+    List<StoredDisease> StoredDiseaseList;
+    private FrameLayout pnlFlash;
+    FloatingActionButton info;
 
 
 
@@ -89,8 +100,38 @@ public class MapboxFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_mapbox, container, false);
+
+        // initialize parameters
+        pnlFlash = (FrameLayout) view.findViewById(R.id.pnlFlash);
+        info = view.findViewById(R.id.info);
+        databaseReference = FirebaseDatabase.getInstance().getReference("diseases");
+        StoredDiseaseList = new ArrayList<>();
+
+        // Listener
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Show welcome message
+                Snackbar snackbar = Snackbar.make(view.findViewById(R.id.myCoordinatorLayout),
+                        "All diseases are shown here; Your own and the ones from your friends.", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+                snackbar.show();
+            }
+        });
+
+
+
+
+
+
+
 
         /// Create Mapbox
         SupportMapFragment mapFragment;
@@ -121,7 +162,64 @@ public class MapboxFragment extends Fragment {
             @Override
             public void onMapReady(@NonNull MapboxMap mapboxMap) {
 
+                // Create List with coordinates for polygone
+                POINTS.clear();
+                OUTER_POINTS.clear();
+                String coordString = readSavedData();
+                Log.d("coordString: ", "" + coordString);
+                // Open File
+                String coordStringList[] = coordString.split("#");
+                Log.d("coordString.length: ", "" + coordString.length());
+                Log.d("coordString.length: ", "" + coordStringList.toString());
+                int i;
+                for (i = 0; i < coordStringList.length; i++) {
+                    double lon;
+                    double lat;
+                    try {
+                        lon = Double.parseDouble(coordStringList[i].split(",")[0]);
+                        lat = Double.parseDouble(coordStringList[i].split(",")[1]);
+                    } catch (NumberFormatException e) {
+                        lon = 0;
+                        lat = 0;
+                    }
+                    //mapboxMap.addMarker(new MarkerOptions()
+                    //        .position(new LatLng(lat, lon))
+                    //        .title("Eiffel Tower"));
+                    OUTER_POINTS.add(Point.fromLngLat(lon, lat));
+                }
+                POINTS.add(OUTER_POINTS);
 
+
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot diseaseSnapshot : dataSnapshot.getChildren()) {
+                            StoredDisease disease = diseaseSnapshot.getValue(StoredDisease.class);
+                            StoredDiseaseList.add(disease);
+                        }
+
+                        for (StoredDisease disease : StoredDiseaseList) {
+
+                            // the next 2 line avoid an exception (Fragment not attached to Activity)
+                            Activity activity = getActivity();
+                            if (isAdded() && activity != null) {
+                                // get the name of the plant to select the correct icon
+                                String diseaseIcon = disease.diseaseName.split(" ")[0].toLowerCase();
+                                int drawableId = getResources().getIdentifier(diseaseIcon, "drawable", "com.example.matthes.farmero");
+
+                                mapboxMap.addMarker(new MarkerOptions()
+                                        .position(new LatLng(Double.parseDouble(disease.diseaselat), Double.parseDouble(disease.diseaselon)))
+                                        .icon(IconFactory.getInstance(getActivity()).fromResource(drawableId))
+                                        .title(disease.diseaseName + "\n" + disease.diseasDate));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
 
 //                mapboxMap.addSource(source);
@@ -135,20 +233,20 @@ public class MapboxFragment extends Fragment {
                 //mapboxMap.addMarker(options);
 
 
-                mapboxMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(51.574903, 12.942841))
-                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.squash))
-                        .title("Squash Powdery Mildrew"));
-
-                mapboxMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(51.579692, 12.954649))
-                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.maize))
-                        .title("Maize Gray Spot"));
-
-                mapboxMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(51.561064, 12.916913))
-                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.bell_pepper))
-                        .title("Bell Pepper Bacterial Spot"));
+//                mapboxMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(51.574903, 12.942841))
+//                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.squash))
+//                        .title("Squash Powdery Mildrew"));
+//
+//                mapboxMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(51.579692, 12.954649))
+//                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.maize))
+//                        .title("Maize Gray Spot"));
+//
+//                mapboxMap.addMarker(new MarkerOptions()
+//                        .position(new LatLng(51.561064, 12.916913))
+//                        .icon(IconFactory.getInstance(getActivity()).fromResource(R.drawable.bell))
+//                        .title("Bell Pepper Bacterial Spot"));
 
                 mapboxMap.setStyle(Style.SATELLITE, new Style.OnStyleLoaded() {
                     @Override
@@ -162,25 +260,25 @@ public class MapboxFragment extends Fragment {
 //                                fillColor(Color.parseColor("#3CFFEA00")))
 //                        );
 
-                            style.addSource(new GeoJsonSource("source-id", Polygon.fromLngLats(POINTS)));
+                        style.addSource(new GeoJsonSource("source-id", Polygon.fromLngLats(POINTS)));
 
-                            Log.d("OUTER_POINTS: ",""+OUTER_POINTS);
-                            style.addSource(new GeoJsonSource("line-source",
-                                    FeatureCollection.fromFeatures(new Feature[] {Feature.fromGeometry(
-                                            LineString.fromLngLats(OUTER_POINTS)
-                                    )})));
+                        Log.d("OUTER_POINTS: ", "" + OUTER_POINTS);
+                        style.addSource(new GeoJsonSource("line-source",
+                                FeatureCollection.fromFeatures(new Feature[]{Feature.fromGeometry(
+                                        LineString.fromLngLats(OUTER_POINTS)
+                                )})));
 
-                            style.addLayer(new FillLayer("layer-id", "source-id").withProperties(
-                                    fillColor(Color.parseColor("#22ffc20c")))
-                            );
+                        style.addLayer(new FillLayer("layer-id", "source-id").withProperties(
+                                fillColor(Color.parseColor("#22ffc20c")))
+                        );
 
-                            style.addLayer(new LineLayer("linelayer", "line-source").withProperties(
-                                    PropertyFactory.lineDasharray(new Float[] {0.01f, 2f}),
-                                    PropertyFactory.lineCap(Property.LINE_CAP_ROUND),
-                                    PropertyFactory.lineJoin(Property.LINE_JOIN_ROUND),
-                                    PropertyFactory.lineWidth(2.3f),
-                                    PropertyFactory.lineColor(Color.parseColor("#ffc20c"))
-                            ));
+                        style.addLayer(new LineLayer("linelayer", "line-source").withProperties(
+                                PropertyFactory.lineDasharray(new Float[]{0.01f, 2f}),
+                                PropertyFactory.lineCap(Property.LINE_CAP_ROUND),
+                                PropertyFactory.lineJoin(Property.LINE_JOIN_ROUND),
+                                PropertyFactory.lineWidth(2.3f),
+                                PropertyFactory.lineColor(Color.parseColor("#ffc20c"))
+                        ));
 
                     }
                 });
@@ -209,24 +307,24 @@ public class MapboxFragment extends Fragment {
         return null;
     }
 
-    public String readSavedData ( ) {
+    public String readSavedData() {
         StringBuffer datax = new StringBuffer("");
         try {
-            FileInputStream fIn = getActivity().openFileInput ( "fields_field_1" );
-            InputStreamReader isr = new InputStreamReader ( fIn ) ;
-            BufferedReader buffreader = new BufferedReader ( isr ) ;
+            FileInputStream fIn = getActivity().openFileInput("fields_field_1");
+            InputStreamReader isr = new InputStreamReader(fIn);
+            BufferedReader buffreader = new BufferedReader(isr);
 
-            String readString = buffreader.readLine ( ) ;
-            while ( readString != null ){
+            String readString = buffreader.readLine();
+            while (readString != null) {
                 datax.append(readString);
-                readString = buffreader.readLine ( ) ;
+                readString = buffreader.readLine();
             }
 
-            isr.close ( ) ;
-        } catch ( IOException ioe ) {
-            ioe.printStackTrace ( ) ;
+            isr.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
-        return datax.toString() ;
+        return datax.toString();
 
     }
 
@@ -251,8 +349,6 @@ public class MapboxFragment extends Fragment {
         fin.close();
         return ret;
     }
-
-
 
 
 }

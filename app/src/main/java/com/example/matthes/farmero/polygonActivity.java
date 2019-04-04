@@ -7,6 +7,7 @@ package com.example.matthes.farmero;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -398,9 +399,20 @@ public class polygonActivity extends AppCompatActivity implements OnMapReadyCall
         }
 
 
+
+
         ///////////// END / FILE DOWNLOAD ///////////////////
 
 
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        Intent I = new Intent(polygonActivity.this, MainActivity.class);
+        startActivity(I);
+        // code here to show dialog
+       // super.onBackPressed();  // optional depending on your needs
     }
 }

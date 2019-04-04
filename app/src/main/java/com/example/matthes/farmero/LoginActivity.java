@@ -95,4 +95,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         firebaseAuth.addAuthStateListener(authStateListener);
     }
+
+    @Override
+    public void onBackPressed()
+    {
+
+    }
 }

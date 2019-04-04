@@ -125,12 +125,13 @@ public class FieldBigActivity extends AppCompatActivity implements
         FieldBigActivity.this.mapboxMap = mapboxMap;
 
 
+        // Create List with coordinates for polygone
+        POINTS.clear();
+        OUTER_POINTS.clear();
         String coordString = readSavedData();
         Log.d("coordString: ", ""+coordString);
         // Open File
         String coordStringList[] = coordString.split("#");
-
-        // Create List with coordinates
         Log.d("coordString.length: ",""+coordString.length());
         Log.d("coordString.length: ",""+coordStringList.toString());
         int i;

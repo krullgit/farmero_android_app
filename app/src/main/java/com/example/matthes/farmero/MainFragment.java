@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 
 import com.mapbox.geojson.Feature;
@@ -42,6 +44,7 @@ import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -79,6 +82,9 @@ public class MainFragment extends Fragment {
     ImageView imagesliderfirst;
     ImageView imageslidersecond;
     ImageView disease1;
+    TextView disease1Headline;
+    TextView disease1Date;
+    FloatingActionButton info;
 
     // polygone for map
 
@@ -92,8 +98,11 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
 
         // initialize parameters
         settings = view.findViewById(R.id.nav_settings2);
@@ -107,6 +116,9 @@ public class MainFragment extends Fragment {
         imagesliderfirst = view.findViewById(R.id.image_slider_first);
         imageslidersecond = view.findViewById(R.id.image_slider_last);
         disease1 =  view.findViewById(R.id.disease1);
+        disease1Headline = view.findViewById(R.id.disease1Headline);
+        disease1Date= view.findViewById(R.id.disease1Date);
+        info = view.findViewById(R.id.info);
 
         // Listener
         settings.setOnClickListener(new View.OnClickListener() {
@@ -168,12 +180,30 @@ public class MainFragment extends Fragment {
             }
         });
 
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Show welcome message
+                Snackbar snackbar = Snackbar.make(view.findViewById(R.id.myCoordinatorLayout),
+                        "Hello Buddy. Here you can check out the latest analyses of your field.", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("OK", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                    }
+                });
+                snackbar.show();
+            }
+        });
+
 
 
 
         // loading Image to the Gallery
 
         String photoPath = Environment.getExternalStorageDirectory() + "/diseasedPhoto0.jpg";
+        String textPath = Environment.getExternalStorageDirectory() + "/diseasedText0.txt";
+        String datePath = Environment.getExternalStorageDirectory() + "/diseasedDate0.txt";
+
 
         // Get the dimensions of the View
         int targetW = disease1.getWidth();
@@ -186,10 +216,10 @@ public class MainFragment extends Fragment {
         BitmapFactory.decodeFile(photoPath, bmOptions);
 
 
+        // check if all files exist
+        if(new File(photoPath).exists() & new File(textPath).exists() & new File(datePath).exists()){
 
-        File f = new File(photoPath);
-        if(f.exists()){
-
+            // Set Photo
             int photoW = bmOptions.outWidth;
             int photoH = bmOptions.outHeight;
 
@@ -203,11 +233,47 @@ public class MainFragment extends Fragment {
 
             Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
             disease1.setImageBitmap(bitmap);
+
+            // Set Text
+            try {
+                String myData = "";
+                File textPath2 = new File(Environment.getExternalStorageDirectory(), "diseasedText0.txt");
+                FileInputStream fis = new FileInputStream(textPath2);
+                DataInputStream in = new DataInputStream(fis);
+                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+                String strLine;
+                while ((strLine = br.readLine()) != null) {
+                    myData = myData + strLine + "\n";
+                }
+                br.close();
+                in.close();
+                fis.close();
+                disease1Headline.setText(myData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Set Date
+            try {
+                String myData = "";
+                File datePath2 = new File(Environment.getExternalStorageDirectory(), "diseasedDate0.txt");
+                FileInputStream fis = new FileInputStream(datePath2);
+                DataInputStream in = new DataInputStream(fis);
+                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+                String strLine;
+                while ((strLine = br.readLine()) != null) {
+                    myData = myData + strLine + "\n";
+                }
+                br.close();
+                in.close();
+                fis.close();
+                disease1Date.setText(myData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
-
-
-
 
 
         // showing the slider for satellite images
@@ -279,13 +345,13 @@ public class MainFragment extends Fragment {
             public void onMapReady(@NonNull MapboxMap mapboxMap) {
 
 
-
-                  String coordString = readSavedData();
+                // Create List with coordinates for polygone
+                POINTS.clear();
+                OUTER_POINTS.clear();
+                String coordString = readSavedData();
                 Log.d("coordString: ", ""+coordString);
                 // Open File
                 String coordStringList[] = coordString.split("#");
-
-                // Create List with coordinates
                 Log.d("coordString.length: ",""+coordString.length());
                 Log.d("coordString.length: ",""+coordStringList.toString());
                 int i;
@@ -377,6 +443,16 @@ public class MainFragment extends Fragment {
 
         return view;
     }
+
+
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Log.d("TTTTTTTTTTTT", "test");
+//    }
+
+
 
 
     private String readFromFile(String fileName) {

@@ -16,6 +16,7 @@ limitations under the License.
 package com.example.matthes.farmero;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 /** Main {@code Activity} class for the Camera app. */
@@ -31,5 +32,13 @@ public class CameraActivity extends Activity {
           .replace(R.id.container, Camera2BasicFragment.newInstance())
           .commit();
     }
+
+  }
+  public void onBackPressed()
+  {
+    Intent I = new Intent(CameraActivity.this, MainActivity.class);
+    startActivity(I);
+    // code here to show dialog
+    // super.onBackPressed();  // optional depending on your needs
   }
 }

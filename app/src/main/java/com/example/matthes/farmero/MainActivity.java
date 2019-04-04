@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_friends:
                         setFragment(friendsFragment);
                         return true;
+
                     default:
                         return false;
                 }
@@ -115,5 +116,13 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
+    }
+    @Override
+    public void onBackPressed()
+    {
+        Intent I = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(I);
+        // code here to show dialog
+        // super.onBackPressed();  // optional depending on your needs
     }
 }
